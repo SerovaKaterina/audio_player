@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&family=Roboto:wght@100;300;500;900&display=swap');
+* {
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  margin: 0;
+  color: white;
+}
+.background-img{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(10px);
+  z-index: -1;
+}
+.container{
+  width: 350px;
+  height: 550px;
+  padding-top: 70px;
+  margin: 0 auto;
+}
+.music-block{
+  margin: 0 auto;
+  width: 350px;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(39, 37, 37);
+  border-radius: 5%;
+  box-shadow: 0 0 10px #000000;
+}
+.music-title{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0px;
+}
+.artist-name{
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.song-name{
+  margin-bottom: 5px;
+}
+p{
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+.image{
+  margin-bottom: 15px;
+  width: 300px;
+  height: 300px;
+  border-radius: 5%;
+}
+.control-content{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.controls img:hover{
+  opacity: 50%;
+  transition: 0.3s;
+}
+.audio-control{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+input[type=range]{
+  cursor: pointer;
+  width: 200px;
+  border-radius: 5px;
+}
+input[type=range] {
+  height: 10px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #bebcb7;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 1px #ffffff;
+  border: 1px solid #ffffff;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #000000;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -3px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ffffff;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #868686;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #bebcb7;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 1px #ffffff;
+  border: 1px solid #ffffff;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #000000;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #ffffff;
+  border: 1px solid #bebcb7;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px #868686;
+}
+input[type=range]::-ms-fill-upper {
+  background: #ffffff;
+  border: 1px solid #bebcb7;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px #868686;
+}
+input[type=range]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 1px #ffffff;
+  border: 1px solid #ffffff;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #000000;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #ffffff;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #ffffff;
+}
+.timing{
+  display: flex;
+  justify-content: space-between;
+}
+.currentTime, .durationTime{
+  font-size: smaller;
+}
+.footer{
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+}
+a img{
+  width: 35px;
+  height: 35px;
+}
+.github{
+  width: 25px;
+  height: 25px;
+}
+a img:hover{
+  opacity: 50%;
+  transition: 0.3s;
+}
+
+.second{
+  display: none;
+}
+.third{
+  display: none;
+}
+
+#background-second{
+  display: none;
+}
+#background-third{
+  display: none;
+}
+#pause_first ,#pause_second, #pause_third{
+  display: none;
+}
+.audio-control img{
+  cursor: pointer;
+}
