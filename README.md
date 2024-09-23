@@ -1,1 +1,1 @@
-[Деплой](https://serovakaterina-js30-2-аудиоплеер.netlify.app)
+https://serovakaterina-js30-2-audioplayer.netlify.app/
