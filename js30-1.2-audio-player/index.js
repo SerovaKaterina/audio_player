@@ -1,87 +1,117 @@
-const playButton = document.getElementById('play_first');
-const pauseButton = document.getElementById('pause_first');
-const imageMain = document.getElementsByClassName('image')[0];
-const audio_first = document.getElementById('audio_first');
-const rangeAudio = document.getElementById('range-audio_first');
-const currentTimeDisplay = document.querySelector('.currentTime');
-const durationTimeDisplay = document.querySelector('.durationTime');
-const nextButton = document.getElementById('forward_first');
-const prevButton = document.getElementById('rewind_first');
 
-const musicBlocks = [
+const tracks = [
     {
-        imageSrc: 'img/spin.png',
-        artistName: 'Dead or Alive',
-        songName: 'You Spin Me Round',
-        audioSrc: 'audio/spin.mp3',
+        title: "Pullin Up",
+        artist: "SODA",
+        src: "assets/audio/SODA – Pullin Up (Extended).mp3",
+        cover: "assets/images/1.jpg"
     },
     {
-        imageSrc: 'img/never.png',
-        artistName: 'Rick Astley',
-        songName: 'Never Gonna Give You Up',
-        audioSrc: 'audio/never.mp3',
+        title: "Praise God",
+        artist: "Kanye West",
+        src: "assets/audio/Kanye West – Praise God.mp3",
+        cover: "assets/images/2.jpg"
     },
     {
-        imageSrc: 'img/rhytmn.png',
-        artistName: 'SNAP!',
-        songName: 'Rhythm is A Dancer',
-        audioSrc: 'audio/rhythm.mp3',
-    },
+        title: "Left Alone",
+        artist: "Allan Raymon",
+        src: "assets/audio/Allan Rayman – Left Alone.mp3",
+        cover: "assets/images/3.jpg"
+    }
 ];
 
-let currentIndex = 0;
+let currentTrackIndex = 0;
 let isPlaying = false;
 
-audio_first.src = "audio/spin.mp3";
-audio_first.load();
 
-playButton.onclick = function(event){
-    imageMain.style.transform = "scale(0.95)";
-    playButton.style.display = "none";
-    pauseButton.style.display = "block";
-    audio_first.play();
-    isPlaying = true;
-};
+const coverImage = document.getElementById('cover-image');
+const trackTitle = document.getElementById('track-title');
+const trackArtist = document.getElementById('track-artist');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const playPauseIcon = document.getElementById('play-pause-icon');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const progressBar = document.getElementById('progress-bar');
+const currentTimeEl = document.getElementById('current-time');
+const totalDurationEl = document.getElementById('total-duration');
+const backgrounds = document.querySelectorAll('.background-img');
 
-pauseButton.onclick = function(event){
-    imageMain.style.transform = "none";
-    playButton.style.display = "block";
-    pauseButton.style.display = "none";
-    audio_first.pause();
-    isPlaying = false;
-};
 
-function playAudio() {
-    audio_first.play();
-    isPlaying = true;
-    playButton.style.display = "none";
-    pauseButton.style.display = "block";
+const audio = new Audio();
+audio.src = tracks[currentTrackIndex].src;
+
+
+function loadTrack(index) {
+    const track = tracks[index];
+    audio.src = track.src;
+    trackTitle.textContent = track.title;
+    trackArtist.textContent = track.artist;
+    coverImage.src = track.cover;
+
+
+    backgrounds.forEach((bg, idx) => {
+        if (idx === index) {
+            bg.style.display = "block";
+            bg.style.opacity = 0;
+        
+            setTimeout(() => {
+                bg.style.opacity = 1;
+            }, 100);
+        } else {
+            bg.style.opacity = 0;
+       
+            setTimeout(() => {
+                bg.style.display = "none";
+            }, 500);
+        }
+    });
 }
 
-rangeAudio.addEventListener('input', function(event) {
-    const newPosition = audio_first.duration * (rangeAudio.value / 100);
-    audio_first.currentTime = newPosition;
-});
-
-audio_first.addEventListener('timeupdate', function(event) {
+function updatePlayPauseIcon() {
     if (isPlaying) {
-        const currentTime = audio_first.currentTime;
-        const duration = audio_first.duration;
-        const progress = (currentTime / duration) * 100;
-        
-        rangeAudio.value = progress;
-
-        const remainingTime = duration - currentTime;
-        currentTimeDisplay.textContent = formatTime(currentTime);
-        durationTimeDisplay.textContent = `-${formatTime(remainingTime)}`;
+        playPauseIcon.src = "assets/svg/pause.png";
+    } else {
+        playPauseIcon.src = "assets/svg/play.png";
     }
-});
+}
+function playTrack() {
+    audio.play();
+    isPlaying = true;
+    updatePlayPauseIcon();
+    coverImage.style.transform = "rotate(360deg)";
+    coverImage.style.transition = "transform 30s linear";
+}
 
-audio_first.addEventListener('ended', function() {
-    currentIndex = (currentIndex + 1) % musicBlocks.length;
-    loadCurrentMusic();
-    playAudio();
-});
+function pauseTrack() {
+    audio.pause();
+    isPlaying = false;
+    updatePlayPauseIcon();
+    coverImage.style.transform = "rotate(0deg)";
+    coverImage.style.transition = "transform 0s linear";
+}
+
+function nextTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    loadTrack(currentTrackIndex);
+    playTrack();
+}
+
+function prevTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+    loadTrack(currentTrackIndex);
+    playTrack();
+}
+
+function updateProgress() {
+    if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressBar.value = progressPercent;
+
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        totalDurationEl.textContent = "-" + formatTime(audio.duration - audio.currentTime);
+    }
+}
+
 
 function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -89,43 +119,33 @@ function formatTime(time) {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-function loadCurrentMusic() {
-    const currentMusic = musicBlocks[currentIndex];
-    imageMain.src = currentMusic.imageSrc;
-    audio_first.src = currentMusic.audioSrc;
-    audio_first.load();
-    playButton.style.display = "block";
-    pauseButton.style.display = "none";
-    currentTimeDisplay.textContent = '0:00';
-    durationTimeDisplay.textContent = '0:00';
-    rangeAudio.value = 0;
+function setProgress(e) {
+    const width = progressBar.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audio.duration;
 
-
-    const artistName = document.querySelector('.artist-name');
-    const songName = document.querySelector('.song-name');
-    artistName.textContent = currentMusic.artistName;
-    songName.textContent = currentMusic.songName;
-
-    const backgroundImages = document.querySelectorAll('.background-img');
-    backgroundImages.forEach((img, index) => {
-        if (index === currentIndex) {
-            img.style.display = "block";
-        } else {
-            img.style.display = "none";
-        }
-    });
+    audio.currentTime = (clickX / width) * duration;
 }
 
-loadCurrentMusic();
+playPauseBtn.addEventListener('click', () => {
+    if (isPlaying) {
+        pauseTrack();
+    } else {
+        playTrack();
+    }
+});
 
-nextButton.onclick = function() {
-    currentIndex = (currentIndex + 1) % musicBlocks.length;
-    loadCurrentMusic();
-    playAudio(); 
-};
+nextBtn.addEventListener('click', nextTrack);
+prevBtn.addEventListener('click', prevTrack);
 
-prevButton.onclick = function() {
-    currentIndex = (currentIndex - 1 + musicBlocks.length) % musicBlocks.length;
-    loadCurrentMusic();
-    playAudio(); 
-};
+audio.addEventListener('timeupdate', updateProgress);
+
+audio.addEventListener('ended', nextTrack);
+
+progressBar.addEventListener('input', (e) => {
+    const seekTime = (progressBar.value / 100) * audio.duration;
+    audio.currentTime = seekTime;
+});
+
+
+loadTrack(currentTrackIndex);
